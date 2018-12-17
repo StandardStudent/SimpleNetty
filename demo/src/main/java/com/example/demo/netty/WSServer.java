@@ -32,7 +32,11 @@ public class WSServer {
                 .channel(NioServerSocketChannel.class)
                 .childHandler(new WSServerInitializer())
                 .option(ChannelOption.SO_BACKLOG,1024)
-                .childOption(ChannelOption.SO_KEEPALIVE,true);
+                .option(ChannelOption.TCP_NODELAY,true)
+                .option(ChannelOption.SO_RCVBUF, 10*1024)
+                .option(ChannelOption.SO_SNDBUF, 10*1024)
+                .childOption(ChannelOption.SO_KEEPALIVE,true)
+                .childOption(ChannelOption.TCP_NODELAY,true);
     }
     public void start(){
         this.channelFuture = serverBootstrap.bind(8001);
